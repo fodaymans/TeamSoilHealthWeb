@@ -25,6 +25,36 @@ export default function LocationPicker() {
   const [showImage, setShowImage] = useState('')
 
 
+  const [showResult, setShowResults] = useState('')
+
+  const [predictions, setPredictions] = useState('')
+
+  
+
+
+  const spice = showResult.slice(170,190 + 6)
+
+  const showindex = predictions.indexOf('You')
+
+
+  const subs = showResult.substring(177, 187)
+
+  const rec = showResult.substring(770, 857)
+
+
+
+  const myArray = showResult.split(showindex );
+
+//   const showindex = showResult.indexOf('</title>')
+
+  console.log(showindex)
+
+
+
+  var splitText=showResult.split("<title>");
+
+
+
   const handleUploadImg = (e) => {
     setImage(e.target.files[0])
     setShowImage(URL.createObjectURL(e.target.files[0]));
@@ -40,7 +70,10 @@ export default function LocationPicker() {
     const formData = new FormData();
     formData.append ('image', image)
     axios.post(url,formData).then((res)=>{
-        console.log(res)
+        setShowResults(res.data)
+        setPredictions(res.data)
+        console.log(res.data)
+
     })
 
   }
@@ -53,112 +86,9 @@ export default function LocationPicker() {
   }
 
 
-//   function handleSubmits() {
-
-//     const formData = new FormData();
-//     formData.append('image', imgfile);
-//     // formData.append('fileName', imgfile.name);
-
-//     fetch(
-//         `https://soilnet.herokuapp.com/predict?image=${imgfile}`,
-//         {
-//           method: "POST",
-//           mode: 'cors', // no-cors, *cors, same-origin
-//     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-//     credentials: 'same-origin', // include, *same-origin, omit
-
-//     headers: {
-//         'Content-Type': 'multipart/form-data'
-//         // 'Content-Type': 'application/x-www-form-urlencoded',
-//       },
-//       body: {
-//         formData
-
-//       }
-//         //   body: JSON.stringify(
-//         //     {
-//         //     image : imgfile,
-           
-//         // }
-//         // )
-//         }
-
-        
-        
-
-//       )
-//         .then((response) => {
-//           return response.json();
-//         })
-  
-//         .then((data) => {
-//           console.log("image Data", data);
-  
-//         //   setImageData(data);
-//           // setCropData(data.crop)
-//         });
 
 
 
-//   }
-
-
-//   function handleSubmit(event) {
-//     event.preventDefault()
-//     const url = 'https://soilnet.herokuapp.com/predict';
-   
-//     const formData = new FormData();
-//     formData.append('image', file);
-//     formData.append('fileName', file.name);
-//     const config = {
-//       headers: {
-//         'content-type': 'form-data',
-        
-
-//       },
-//     };
-//     axios.post(url, formData, config).then((response) => {
-//       console.log(response.data);
-//     });
-
-//   }
-
-//   const visit = (obj, fn) => {
-//     const values = Object.values(obj);
-
-//     values.forEach((val) =>
-//       val && typeof val === "object" ? visit(val, fn) : fn(val)
-//     );
-//   };
-
-//   const print = (val) => console.log(val);
-
-//   const person = {
-//     name: {
-//       first: "John",
-//       last: "Doe",
-//     },
-//     age: 15,
-//     secret: {
-//       secret2: {
-//         secret3: {
-//           val: "I ate your cookie",
-//         },
-//       },
-//     },
-//   };
-
-//   visit(SoilData, print);
-
-  // console.log(data)
-
-  //   const data = this.state.myPosts;
-  //   const display = Object.keys(SoilData).map((d, key) => {
-  //   const {Fertility,crop} = SoilData;
-
-  //   const {cec,clay,nitrogen,pH,sand} = Fertility;
-
-  //   console.log("get",cec)
 
   function handleChangeLocation(lat, lng) {
     setLocation({ lat: lat, lng: lng });
@@ -315,15 +245,11 @@ export default function LocationPicker() {
 
 
 
-
-
-
-
-        {/* <div
+        <div
           style={{
             marginLeft: 10,
             borderWidth: 5,
-            width: 150,
+            width: 250,
             justifyContent: "center",
             backgroundColor: "#00176A",
             borderColor: "#7ED7E1",
@@ -332,10 +258,15 @@ export default function LocationPicker() {
             marginTop: 20,
           }}
         >
-          <label style={{ color: "white" }}>Soil Type </label>
 
-          <label style={{ color: "white" }}>{visit} </label>
-        </div> */}
+        <label style={{ color: "white" }}>Soil Type </label> : <h1>{subs}</h1>
+        <label style={{ color: "white" }}>Crop Recommendations </label> 
+
+        
+         <h5 style={{ color: "white" }}>{rec}</h5>
+
+</div>
+
       </div>
     </>
   );
